@@ -3,6 +3,8 @@
 import axios from "axios";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+
 
 import {
   Card,
@@ -31,6 +33,8 @@ type LoginFormData = {
 };
 
 const LoginPage = () => {
+  const router =useRouter();
+
   const form = useForm<LoginFormData>({
     defaultValues: {
       email: "",
@@ -47,13 +51,13 @@ const LoginPage = () => {
       );
       console.log("Login Success:", response.data.token);
 
-      if(response.data.token) {
+      if (response.data.token) {
         localStorage.setItem("token", response.data.token);
         toast.success("Login successful!");
+        router.push("/product");
       }
 
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       if (error.response) {
         console.error("Login error:", error.response.data.message);

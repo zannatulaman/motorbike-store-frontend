@@ -43,7 +43,7 @@ const ProductList = () => {
             <Link href={`/product/${product._id}`} className="mt-auto w-full">
               {" "}
               <button className="mt-auto w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition">
-                Details
+               View Details
               </button>
             </Link>
           </div>

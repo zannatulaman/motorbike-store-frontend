@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Image from "next/image";
 import {
   Star,
-  ShoppingCart,
-  Heart,
+  // ShoppingCart,
+  // Heart,
   Truck,
   Shield,
   RotateCcw,
@@ -12,7 +13,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-
+import useUser from "@/hooks/useUser";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface Product {
   _id: string;
@@ -27,11 +30,9 @@ interface Product {
   updatedAt: string;
 }
 
-
 type ProductActionsProps = {
   product: Product;
 };
-  
 
 type StarRatingProps = {
   rating: number;
@@ -43,7 +44,9 @@ const StarRating = ({ rating }: StarRatingProps) => (
       <Star
         key={i}
         className={`w-5 h-5 ${
-          i < Math.round(rating) ? "text-yellow-400 fill-yellow-400" : "text-gray-300"
+          i < Math.round(rating)
+            ? "text-yellow-400 fill-yellow-400"
+            : "text-gray-300"
         }`}
         fill={i < Math.round(rating) ? "currentColor" : "none"}
       />
@@ -53,19 +56,62 @@ const StarRating = ({ rating }: StarRatingProps) => (
 );
 
 const ProductActions = ({ product }: ProductActionsProps) => {
+  const router = useRouter();
+  const { user } = useUser();
 
-    const handleAddToCart = () => {
+
+
+
+
+  const handleAddToCart = async () => {
+
+    if (!user?.user?.email) {
+      toast.error("Please log in to add items to your cart.");
+      router.push("/login");
+      return;
+    }
+
+    const cartItem = {
+      name: product.name,
+      email: user?.user?.email,
+      products: [
+        {
+          productId: product._id,
+          quantity: 1,
+        },
+      ],
+      totalAmount: product.price,
+      status: "pending",
+      address: "87-50, 167th Street, Jamaica, NY 11432",
+    };
+
+    console.log("Cart item:", cartItem);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/order/create",
+        cartItem
+      );
+
       toast.success("Added to cart!");
-    };
+      router.push("/cart")
+      console.log("Order response:", response.data);
+    } catch (error: any) {
+      console.error("Add to cart error:", error);
+      toast.error(
+        error.response?.data?.message ||
+          "Something went wrong while adding to cart."
+      );
+    }
+  };
 
-    const handleBuyNow = () => {
-      toast("Proceeding to buy...");
-    };
+  // const handleBuyNow = () => {
+  //   toast("Proceeding to buy...");
+  // };
 
-    const handleAddToWishlist = () => {
-      toast.success("Added to wishlist!");
-    };
-    
+  // const handleAddToWishlist = () => {
+  //   toast.success("Added to wishlist!");
+  // };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -123,7 +169,7 @@ const ProductActions = ({ product }: ProductActionsProps) => {
                   >
                     <span className="font-semibold">Add to Cart</span>
                   </Button>
-                  <Button
+                  {/* <Button
                     size="lg"
                     variant="outline"
                     className="h-12"
@@ -131,15 +177,15 @@ const ProductActions = ({ product }: ProductActionsProps) => {
                   >
                     <ShoppingCart className="w-5 h-5 mr-2" />
                     <span className="font-semibold">Buy Now</span>
-                  </Button>
-                  <Button
+                  </Button> */}
+                  {/* <Button
                     size="lg"
                     variant="outline"
                     className="h-12"
                     onClick={handleAddToWishlist}
                   >
                     <Heart className="w-5 h-5" />
-                  </Button>
+                  </Button> */}
                 </div>
               </div>
 

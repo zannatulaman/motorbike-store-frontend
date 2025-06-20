@@ -1,8 +1,73 @@
+"use client"
+import { ApiResponse, Order } from '@/app/(mainLayout)/cart/page';
+import useUser from '@/hooks/useUser';
+import axios from 'axios';
+import { Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Alert, AlertDescription } from './ui/alert';
 
 const Navbar = () => {
+  const [orders, setOrders] = useState<Order[]>([]);
+  // const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { user } = useUser();
+  const userEmail = user?.user?.email;
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        // setLoading(true);
+        const response = await axios.get<ApiResponse>(
+          "http://localhost:5000/api/order/get"
+        );
+
+        if (response.data.success) {
+          // Filter orders by current user's email
+          const userOrders = response.data.data.filter(
+            (order) => order.email === userEmail
+          );
+          setOrders(userOrders);
+        } else {
+          setError("Failed to fetch orders");
+        }
+      } catch (err) {
+        setError("Error fetching orders");
+        console.error("Error fetching orders:", err);
+      } finally {
+        // setLoading(false);
+      }
+    };
+
+    if (userEmail) {
+      fetchOrders();
+    }
+  }, [userEmail]);
+
+  // Loading state
+  // if (loading) {
+  //   return (
+  //     <div className="container mx-auto px-4 py-8">
+  //       <div className="flex items-center justify-center min-h-[400px]">
+  //         <Loader2 className="h-8 w-8 animate-spin" />
+  //         <span className="ml-2 text-lg">Loading your cart...</span>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="container mx-auto px-4 py-8">
+        <Alert variant="destructive">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="navbar bg-black shadow-sm flex flex-wrap justify-between items-center px-4 gap-4">
@@ -46,7 +111,7 @@ const Navbar = () => {
                   />
                 </svg>
                 <span className="badge badge-sm indicator-item bg-success">
-                  8
+                  {orders.length}
                 </span>
               </div>
             </div>
@@ -55,12 +120,13 @@ const Navbar = () => {
               className="card card-compact dropdown-content bg-base-100 mt-3 w-52 shadow"
             >
               <div className="card-body">
-                <span className="text-lg font-bold">8 Items</span>
-                <span className="text-info">Subtotal: $999</span>
+                <span className="text-lg font-bold">{orders.length} Items</span>
                 <div className="card-actions">
-                  <button className="btn btn-primary btn-block">
-                    View cart
-                  </button>
+                  <Link href={"/cart"}>
+                    <button className="btn btn-primary btn-block">
+                      View cart
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>
@@ -187,78 +253,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* <div className="navbar bg-black shadow-sm">
-        <div className="navbar-start">
-          <div className="dropdown">
-            <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-5 w-5"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {" "}
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M4 6h16M4 12h8m-8 6h16"
-                />{" "}
-              </svg>
-            </div>
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <Link href="/about">About Us</Link>
-              </li>
-              <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a>Item 3</a>
-              </li>
-            </ul>
-          </div>
-          <Link
-            href="/"
-            className="btn btn-ghost normal-case text-xl text-white"
-          >
-            Bike Store
-          </Link>
-        </div>
-        <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-white font-medium">
-            <li>
-              <Link href="/about">About Us</Link>
-            </li>
-            <li>
-              <Link href="/service">Services</Link>
-            </li>
-            <li>
-              <Link href="/product">Products</Link>
-            </li>
-            <li>
-              <Link href="/contact">Contact Us</Link>
-            </li>
-          </ul>
-        </div>
-        <div className="navbar-end">
-          <Link href="/login">
-            <button className="btn btn-secondary">Login</button>
-          </Link>
-        </div>
-      </div> */}
+      
     </>
   );
 }
