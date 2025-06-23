@@ -28,6 +28,7 @@ import {
 import Image from "next/image";
 import useUser from "@/hooks/useUser";
 import { toast } from "sonner";
+import Link from "next/link";
 
 // TypeScript interfaces
 interface Product {
@@ -202,7 +203,9 @@ const CartPage = () => {
           <p className="text-gray-500 mb-6">
             Add some products to get started!
           </p>
-          <Button>Continue Shopping</Button>
+          <Link href={"/product"}>
+            <Button>Continue Shopping</Button>
+          </Link>
         </div>
       </div>
     );

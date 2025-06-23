@@ -54,7 +54,7 @@ const LoginPage = () => {
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
         toast.success("Login successful!");
-        router.push("/product");
+        router.push("/");
       }
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

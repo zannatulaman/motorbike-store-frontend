@@ -1,16 +1,25 @@
-"use client"
-import { ApiResponse, Order } from '@/app/(mainLayout)/cart/page';
-import useUser from '@/hooks/useUser';
-import axios from 'axios';
-import { Loader2 } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
-import React, { useEffect, useState } from 'react'
-import { Alert, AlertDescription } from './ui/alert';
+"use client";
+
+import { ApiResponse, Order } from "@/app/(mainLayout)/cart/page";
+import useUser from "@/hooks/useUser";
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { Alert, AlertDescription } from "./ui/alert";
+import {
+  Home,
+  Info,
+  Wrench,
+  ShoppingBag,
+  Phone,
+  User,
+  LogIn,
+  ShoppingCart,
+} from "lucide-react";
 
 const Navbar = () => {
   const [orders, setOrders] = useState<Order[]>([]);
-  // const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { user } = useUser();
   const userEmail = user?.user?.email;
@@ -18,13 +27,11 @@ const Navbar = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        // setLoading(true);
         const response = await axios.get<ApiResponse>(
           "http://localhost:5000/api/order/get"
         );
 
         if (response.data.success) {
-          // Filter orders by current user's email
           const userOrders = response.data.data.filter(
             (order) => order.email === userEmail
           );
@@ -35,8 +42,6 @@ const Navbar = () => {
       } catch (err) {
         setError("Error fetching orders");
         console.error("Error fetching orders:", err);
-      } finally {
-        // setLoading(false);
       }
     };
 
@@ -45,19 +50,6 @@ const Navbar = () => {
     }
   }, [userEmail]);
 
-  // Loading state
-  // if (loading) {
-  //   return (
-  //     <div className="container mx-auto px-4 py-8">
-  //       <div className="flex items-center justify-center min-h-[400px]">
-  //         <Loader2 className="h-8 w-8 animate-spin" />
-  //         <span className="ml-2 text-lg">Loading your cart...</span>
-  //       </div>
-  //     </div>
-  //   );
-  // }
-
-  // Error state
   if (error) {
     return (
       <div className="container mx-auto px-4 py-8">
@@ -70,7 +62,9 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Top Navbar */}
       <div className="navbar bg-black shadow-sm flex flex-wrap justify-between items-center px-4 gap-4">
+        {/* Logo */}
         <div className="flex-1">
           <Image
             src="https://dynamic.design.com/preview/logodraft/b7fb4a7e-1175-4888-8c24-f31e54e4549a/image/large.png"
@@ -80,6 +74,7 @@ const Navbar = () => {
           />
         </div>
 
+        {/* Search */}
         <div className="w-full sm:w-auto flex-1 flex justify-center sm:justify-end">
           <input
             type="text"
@@ -88,7 +83,9 @@ const Navbar = () => {
           />
         </div>
 
+        {/* Cart & Profile */}
         <div className="flex items-center gap-2">
+          {/* Cart */}
           <div className="dropdown dropdown-end z-50">
             <div
               tabIndex={0}
@@ -96,20 +93,7 @@ const Navbar = () => {
               className="btn btn-success btn-circle"
             >
               <div className="indicator">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-5 w-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />
-                </svg>
+                <ShoppingCart className="h-5 w-5" />
                 <span className="badge badge-sm indicator-item bg-success">
                   {orders.length}
                 </span>
@@ -122,7 +106,7 @@ const Navbar = () => {
               <div className="card-body">
                 <span className="text-lg font-bold">{orders.length} Items</span>
                 <div className="card-actions">
-                  <Link href={"/cart"}>
+                  <Link href="/cart">
                     <button className="btn btn-primary btn-block">
                       View cart
                     </button>
@@ -132,6 +116,7 @@ const Navbar = () => {
             </div>
           </div>
 
+          {/* Profile Avatar */}
           <div className="dropdown dropdown-end z-50">
             <div
               tabIndex={0}
@@ -152,13 +137,7 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
+                <Link href="/profile">Profile</Link>
               </li>
               <li>
                 <a>Logout</a>
@@ -168,8 +147,8 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Bottom Navbar */}
       <div className="navbar bg-black shadow-sm">
-        {/* Start Section (Logo & Mobile Menu) */}
         <div className="navbar-start">
           {/* Mobile Dropdown */}
           <div className="dropdown">
@@ -189,33 +168,64 @@ const Navbar = () => {
                 />
               </svg>
             </button>
+
+            {/* Mobile Menu Items */}
             <ul
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <Link href="/about">About Us</Link>
+                <Link href="/">
+                  <Home className="w-4 h-4" />
+                  Home
+                </Link>
               </li>
               <li>
-                <details>
-                  <summary>Parent</summary>
-                  <ul className="p-2">
-                    <li>
-                      <a>Submenu 1</a>
-                    </li>
-                    <li>
-                      <a>Submenu 2</a>
-                    </li>
-                  </ul>
-                </details>
+                <Link href="/about">
+                  <Info className="w-4 h-4" />
+                  About Us
+                </Link>
               </li>
               <li>
-                <a>Item 3</a>
+                <Link href="/service">
+                  <Wrench className="w-4 h-4" />
+                  Services
+                </Link>
+              </li>
+              <li>
+                <Link href="/product">
+                  <ShoppingBag className="w-4 h-4" />
+                  Products
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact">
+                  <Phone className="w-4 h-4" />
+                  Contact Us
+                </Link>
+              </li>
+              <li>
+                <Link href="/profile">
+                  <User className="w-4 h-4" />
+                  Profile
+                </Link>
+              </li>
+              <li>
+                <Link href="/cart">
+                  <ShoppingCart className="w-4 h-4" />
+                  Cart
+                </Link>
+              </li>
+              <li>
+                <Link href="/login">
+                  <LogIn className="w-4 h-4" />
+                  Login
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Brand Logo */}
+          {/* Brand Logo Text */}
           <Link
             href="/"
             className="btn btn-ghost normal-case text-xl text-white"
@@ -224,7 +234,7 @@ const Navbar = () => {
           </Link>
         </div>
 
-        {/* Center Nav Links (visible on lg+) */}
+        {/* Desktop Menu */}
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 text-white font-medium text-base">
             <li>
@@ -245,17 +255,15 @@ const Navbar = () => {
           </ul>
         </div>
 
-        {/* End Section (Login) */}
-        <div className="navbar-end">
+        {/* Desktop Login Button */}
+        <div className="navbar-end hidden lg:flex">
           <Link href="/login">
             <button className="btn btn-success">Login</button>
           </Link>
         </div>
       </div>
-
-      
     </>
   );
-}
+};
 
-export default Navbar
+export default Navbar;

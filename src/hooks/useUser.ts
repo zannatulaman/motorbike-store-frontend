@@ -26,15 +26,15 @@ const useUser = () => {
       if (token) {
         try {
           const decoded: DecodedToken = jwtDecode(token);
- 
+          setUser(decoded);
           // Optional: Check expiration
-          if (decoded.exp * 1000 > Date.now()) {
-            setUser(decoded);
-          } else {
-            console.warn("Token expired");
-            localStorage.removeItem("token");
-            setUser(null);
-          }
+          // if (decoded.exp * 1000 > Date.now()) {
+          //   setUser(decoded);
+          // } else {
+          //   console.warn("Token expired");
+          //   localStorage.removeItem("token");
+          //   setUser(null);
+          // }
         } catch (error) {
           console.error("Invalid token", error);
           setUser(null);
