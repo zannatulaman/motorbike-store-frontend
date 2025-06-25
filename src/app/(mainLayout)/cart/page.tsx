@@ -86,7 +86,7 @@ const CartPage = () => {
       try {
         setLoading(true);
         const response = await axios.get<ApiResponse>(
-          "http://localhost:5000/api/order/get"
+          "https://bike-store-backend-silk.vercel.app/api/order/get"
         );
 
         if (response.data.success) {
@@ -127,7 +127,9 @@ const CartPage = () => {
   // Delete order (DELETE without token)
   const handleDeleteOrder = async (orderId: string) => {
     try {
-      await axios.delete(`http://localhost:5000/api/order/delete/${orderId}`);
+      await axios.delete(
+        `https://bike-store-backend-silk.vercel.app/api/order/delete/${orderId}`
+      );
 
       toast.success("Order deleted successfully");
       setOrders((prev) => prev.filter((order) => order._id !== orderId));
@@ -145,7 +147,7 @@ const CartPage = () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Here you would typically make an API call to place the order
-      // await axios.post('http://localhost:5000/api/order/place', { orders })
+      // await axios.post('https://bike-store-backend-silk.vercel.app/api/order/place', { orders })
 
       setIsModalOpen(false);
       // You might want to redirect to a success page or show a success message

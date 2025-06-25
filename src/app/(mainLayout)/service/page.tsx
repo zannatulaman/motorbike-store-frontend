@@ -17,7 +17,7 @@ const ServicesPage = () => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/service/get"
+          "https://bike-store-backend-silk.vercel.app/api/service/get"
         );
         setServices(response.data.data);
         console.log("Services fetched successfully:", response.data.data.id);

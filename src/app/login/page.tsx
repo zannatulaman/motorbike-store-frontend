@@ -45,7 +45,7 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/user/sign-in",
+        "https://bike-store-backend-silk.vercel.app/api/user/sign-in",
         data
       );
 

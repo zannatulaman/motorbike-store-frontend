@@ -49,11 +49,14 @@ const ProfilePage = () => {
       }
 
       try {
-        const res = await axios.get("http://localhost:5000/api/profile/me", {
-          headers: {
-            "auth-token": `${token}`,
-          },
-        });
+        const res = await axios.get(
+          "https://bike-store-backend-silk.vercel.app/api/profile/me",
+          {
+            headers: {
+              "auth-token": `${token}`,
+            },
+          }
+        );
 
         const data = res.data;
         console.log("Profile data:", data);
@@ -99,7 +102,7 @@ const ProfilePage = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/profile/create",
+        "https://bike-store-backend-silk.vercel.app/api/profile/create",
         {
           fullName: user.fullName,
           email: user.email,

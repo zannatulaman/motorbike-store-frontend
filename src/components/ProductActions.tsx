@@ -59,12 +59,7 @@ const ProductActions = ({ product }: ProductActionsProps) => {
   const router = useRouter();
   const { user } = useUser();
 
-
-
-
-
   const handleAddToCart = async () => {
-
     if (!user?.user?.email) {
       toast.error("Please log in to add items to your cart.");
       router.push("/login");
@@ -88,12 +83,12 @@ const ProductActions = ({ product }: ProductActionsProps) => {
     console.log("Cart item:", cartItem);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/order/create",
+        "https://bike-store-backend-silk.vercel.app/api/order/create",
         cartItem
       );
 
       toast.success("Added to cart!");
-      router.push("/cart")
+      router.push("/cart");
       console.log("Order response:", response.data);
     } catch (error: any) {
       console.error("Add to cart error:", error);

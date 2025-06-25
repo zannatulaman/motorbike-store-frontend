@@ -11,12 +11,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 
-
 export async function getService(id: string): Promise<Service | null> {
   try {
-    const res = await fetch(`http://localhost:5000/api/service/get/${id}`, {
-      cache: "no-store",
-    });
+    const res = await fetch(
+      `https://bike-store-backend-silk.vercel.app/api/service/get/${id}`,
+      {
+        cache: "no-store",
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Failed to fetch service");
@@ -29,7 +31,6 @@ export async function getService(id: string): Promise<Service | null> {
     return null;
   }
 }
-
 
 const SingleServicePage = async ({ params }: { params: { id: string } }) => {
   console.log("Params ID:", params.id); // Debug

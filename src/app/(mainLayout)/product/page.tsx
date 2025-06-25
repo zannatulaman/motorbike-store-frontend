@@ -6,15 +6,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-
-
 const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
     const fetchProducts = () => {
       axios
-        .get("http://localhost:5000/api/product/get")
+        .get("https://bike-store-backend-silk.vercel.app/api/product/get")
         .then((response) => {
           setProducts(response.data);
         })
@@ -51,7 +49,7 @@ const ProductList = () => {
             <Link href={`/product/${product._id}`} className="mt-auto w-full">
               {" "}
               <button className="mt-auto w-full bg-black text-white py-2 rounded hover:bg-gray-800 transition">
-               View Details
+                View Details
               </button>
             </Link>
           </div>

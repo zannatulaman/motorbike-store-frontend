@@ -31,7 +31,7 @@ const Navbar = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get<ApiResponse>(
-          "http://localhost:5000/api/order/get"
+          "https://bike-store-backend-silk.vercel.app/api/order/get"
         );
 
         if (response.data.success) {
@@ -222,7 +222,7 @@ const Navbar = () => {
                   <User className="w-4 h-4" />
                   Profile
                 </Link>
-              </li> 
+              </li>
             </ul>
           </div>
 

@@ -27,16 +27,20 @@ const BookServicePage = () => {
     };
 
     // Retrieve token from localStorage or your auth provider
-    const token = typeof window !== "undefined" ? localStorage.getItem("token") : "";
+    const token =
+      typeof window !== "undefined" ? localStorage.getItem("token") : "";
 
-    const res = await fetch("http://localhost:5000/api/service/booking", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "auth-token": token || "",
-      },
-      body: JSON.stringify(bookingData),
-    });
+    const res = await fetch(
+      "https://bike-store-backend-silk.vercel.app/api/service/booking",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "auth-token": token || "",
+        },
+        body: JSON.stringify(bookingData),
+      }
+    );
 
     if (res.ok) {
       alert("Booking successful!");
