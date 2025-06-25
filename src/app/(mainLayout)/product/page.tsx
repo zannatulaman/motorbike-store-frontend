@@ -1,6 +1,7 @@
 "use client";
 
 import { Product } from "@/types";
+import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -11,12 +12,19 @@ const ProductList = () => {
   const [products, setProducts] = useState<Product[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/product/get")
-      .then((res) => res.json())
-      .then((data) => setProducts(data))
-      .catch((err) => console.error("Failed to fetch products:", err));
-  }, []);
+    const fetchProducts = () => {
+      axios
+        .get("http://localhost:5000/api/product/get")
+        .then((response) => {
+          setProducts(response.data);
+        })
+        .catch((error) => {
+          console.error("Failed to fetch products:", error);
+        });
+    };
 
+    fetchProducts();
+  }, []);
   return (
     <section className="max-w-7xl mx-auto py-12 px-6">
       <h2 className="text-3xl font-bold mb-10 text-center">All Products</h2>

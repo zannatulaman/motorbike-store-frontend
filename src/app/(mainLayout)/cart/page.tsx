@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState, useEffect } from "react";
@@ -213,22 +214,24 @@ const CartPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center gap-2 mb-8">
+      <div className="flex items-center gap-2 mb-8 flex-wrap">
         <ShoppingCart className="h-8 w-8" />
-        <h1 className="text-3xl font-bold">Shopping Cart</h1>
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">
+          Shopping Cart
+        </h1>
         <Badge variant="secondary" className="ml-2">
           {totalItems} {totalItems === 1 ? "item" : "items"}
         </Badge>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {/* Cart Items */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="md:col-span-2 space-y-6">
           {orders.map((order) => (
             <Card key={order._id} className="overflow-hidden">
               <CardHeader className="pb-4">
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <CardTitle className="text-base md:text-lg">
                     Order #{order._id.slice(-8)}
                   </CardTitle>
                   <Badge
@@ -244,20 +247,20 @@ const CartPage = () => {
                     {order.status}
                   </Badge>
 
-                  {/* ✅ Cancel button for pending orders */}
                   {order.status === "pending" && (
                     <Button
                       variant="destructive"
                       size="sm"
                       onClick={() => handleDeleteOrder(order._id)}
-                      className="mt-2"
+                      className="mt-2 w-full sm:w-auto"
                     >
                       <Trash2 className="h-4 w-4 mr-1" />
                       Cancel Order
                     </Button>
                   )}
                 </div>
-                <div className="flex items-center gap-4 text-sm text-gray-600">
+
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4 text-sm text-gray-600 mt-2">
                   <div className="flex items-center gap-1">
                     <MapPin className="h-4 w-4" />
                     <span>{order.address}</span>
@@ -273,9 +276,9 @@ const CartPage = () => {
                 {order.products.map((item) => (
                   <div
                     key={item._id}
-                    className="flex gap-4 p-4 border rounded-lg"
+                    className="flex flex-col sm:flex-row gap-4 p-2 sm:p-4 border rounded-lg"
                   >
-                    <div className="relative w-20 h-20 flex-shrink-0">
+                    <div className="relative w-16 h-16 sm:w-20 sm:h-20 flex-shrink-0">
                       <Image
                         src={item.productId.image || "/placeholder.svg"}
                         alt={item.productId.name}
@@ -285,19 +288,19 @@ const CartPage = () => {
                     </div>
 
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-semibold text-lg truncate">
+                      <h3 className="font-semibold text-sm sm:text-base md:text-lg truncate">
                         {item.productId.name}
                       </h3>
-                      <p className="text-sm text-gray-600 line-clamp-2">
+                      <p className="text-xs sm:text-sm text-gray-600 line-clamp-2">
                         {item.productId.description}
                       </p>
-                      <div className="flex items-center gap-2 mt-2">
+                      <div className="flex items-center gap-2 mt-2 flex-wrap">
                         <Badge variant="outline">
                           {item.productId.category}
                         </Badge>
                         <div className="flex items-center gap-1">
                           <Star className="h-4 w-4 fill-yellow-400 text-yellow-400" />
-                          <span className="text-sm">
+                          <span className="text-xs sm:text-sm">
                             {item.productId.rating}
                           </span>
                         </div>
@@ -305,13 +308,13 @@ const CartPage = () => {
                     </div>
 
                     <div className="text-right">
-                      <div className="text-lg font-bold">
+                      <div className="text-sm sm:text-base font-bold">
                         ${item.productId.price.toLocaleString()}
                       </div>
-                      <div className="text-sm text-gray-600">
+                      <div className="text-xs text-gray-600">
                         Qty: {item.quantity}
                       </div>
-                      <div className="text-sm font-semibold mt-1">
+                      <div className="text-xs sm:text-sm font-semibold mt-1">
                         Total: $
                         {(
                           item.productId.price * item.quantity
@@ -326,7 +329,7 @@ const CartPage = () => {
         </div>
 
         {/* Order Summary */}
-        <div className="lg:col-span-1">
+        <div className="md:col-span-1">
           <Card className="sticky top-4">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -336,12 +339,12 @@ const CartPage = () => {
             </CardHeader>
 
             <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
+              <div className="space-y-2 text-sm">
+                <div className="flex justify-between">
                   <span>Total Items:</span>
                   <span>{totalItems}</span>
                 </div>
-                <div className="flex justify-between text-sm">
+                <div className="flex justify-between">
                   <span>Total Orders:</span>
                   <span>{orders.length}</span>
                 </div>
@@ -354,7 +357,7 @@ const CartPage = () => {
 
               <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
                 <DialogTrigger asChild>
-                  <Button className="w-full" size="lg">
+                  <Button className="w-full sm:w-auto" size="lg">
                     Place Order
                   </Button>
                 </DialogTrigger>
@@ -368,12 +371,12 @@ const CartPage = () => {
                   </DialogHeader>
 
                   <div className="space-y-4 py-4">
-                    <div className="bg-gray-50 p-4 rounded-lg space-y-2">
-                      <div className="flex justify-between text-sm">
+                    <div className="bg-gray-50 p-4 rounded-lg space-y-2 text-sm">
+                      <div className="flex justify-between">
                         <span>Total Items:</span>
                         <span className="font-medium">{totalItems}</span>
                       </div>
-                      <div className="flex justify-between text-sm">
+                      <div className="flex justify-between">
                         <span>Total Orders:</span>
                         <span className="font-medium">{orders.length}</span>
                       </div>

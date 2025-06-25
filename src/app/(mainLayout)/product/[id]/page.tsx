@@ -19,9 +19,12 @@ export interface Product {
   
   export async function getProduct(id: string): Promise<Product | null> {
     try {
-      const response = await fetch(`http://localhost:5000/api/product/get/${id}`, {
-        cache: "no-store", // prevent caching
-      });
+      const response = await fetch(
+        `http://localhost:5000/api/product/get/${id}`,
+        {
+          cache: "no-store", // prevent caching
+        }
+      );
   
       if (!response.ok) {
         throw new Error("Failed to fetch product");

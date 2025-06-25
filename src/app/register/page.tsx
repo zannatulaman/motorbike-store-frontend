@@ -20,16 +20,14 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import axios from "axios";
 import { RegisterFormData } from "@/types";
-import { useRouter } from "next/navigation"; 
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import Lottie from "lottie-react";
-import register from "../../../public/register.json"; // Adjust the path as necessary
+import register from "../../../public/register.json";
 
 const RegisterPage = () => {
   const router = useRouter();
 
- 
-  // Define the form data type
   const form = useForm<RegisterFormData>({
     defaultValues: {
       name: "",
@@ -40,38 +38,37 @@ const RegisterPage = () => {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    console.log("Submitted data:", data);
-
     try {
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:5000/api/user/sign-up",
         data
       );
-      console.log("Registration success:", response.data);
-
       router.push(`/verifyOtp?email=${data.email}`);
-      toast.success("Event has been created.");
-
+      toast.success("Account created! Please verify your email.");
     } catch (error) {
       console.error("Registration failed:", error);
+      toast.error("Registration failed. Try again.");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full flex items-center justify-center mb-6">
-        {/* Left Black Card (for design) */}
-        {/* <Card className="w-[500px] bg-black h-[578px] rounded-none" /> */}
-        <div className="w-[500px] h-[578px] bg-slate-300 ">
-          <Lottie animationData={register} loop={true} className="mt-6" />;
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
+      <div className="flex flex-col md:flex-row items-center justify-center w-full max-w-6xl">
+        {/* Left Animation */}
+        <div className="w-full md:w-1/2 h-[300px] md:h-[500px] flex items-center justify-center bg-slate-300 rounded-lg">
+          <Lottie
+            animationData={register}
+            loop={true}
+            className="w-full h-full"
+          />
         </div>
 
-        {/* Right Form Card */}
-        <Card className="w-[500px] h-[578px] rounded-none">
-          <CardHeader className="text-center mt-6 space-y-2">
+        {/* Right Form */}
+        <Card className="w-full md:w-1/2 h-[300px] md:h-[500px] rounded-lg">
+          <CardHeader className="text-center mt-4">
             <CardAction>
               <Link href="/login">
-                <Button variant="link">Login</Button>
+                <Button variant="link">Already have an account? Login</Button>
               </Link>
             </CardAction>
           </CardHeader>
@@ -80,9 +77,8 @@ const RegisterPage = () => {
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-2 mt-10"
+                className="space-y-4"
               >
-                {/* Name Field */}
                 <FormField
                   control={form.control}
                   name="name"
@@ -97,7 +93,6 @@ const RegisterPage = () => {
                   )}
                 />
 
-                {/* Email Field */}
                 <FormField
                   control={form.control}
                   name="email"
@@ -116,7 +111,6 @@ const RegisterPage = () => {
                   )}
                 />
 
-                {/* Password Field */}
                 <FormField
                   control={form.control}
                   name="password"
@@ -135,35 +129,15 @@ const RegisterPage = () => {
                   )}
                 />
 
-                {/* Confirm Password Field */}
-                {/* <FormField
-                  control={form.control}
-                  name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Confirm Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          placeholder="••••••••"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                /> */}
-
-                {/* Submit and Google Buttons */}
-                <CardFooter className="flex-col gap-2">
+                <CardFooter className="flex-col gap-2 pt-4 px-0">
                   <Button type="submit" className="w-full">
                     Register
                   </Button>
-                  <div className="flex w-full flex-col">
-                    <div className="divider">OR</div>
+                  <div className="w-full text-center text-sm text-gray-500">
+                    or
                   </div>
                   <Button variant="outline" className="w-full">
-                    Google
+                    Continue with Google
                   </Button>
                 </CardFooter>
               </form>

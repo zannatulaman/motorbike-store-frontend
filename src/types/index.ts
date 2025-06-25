@@ -12,3 +12,14 @@ export type Product = {
   price: number;
   category: string;
 };
+
+export type Service = {
+  _id: string;
+  name: string;
+  image: string;
+  title: string;
+  description: string;
+  price: number;
+  duration: string;
+  isAvailable: boolean;
+};

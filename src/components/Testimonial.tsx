@@ -64,28 +64,31 @@ const Testimonial = () => {
           alt="avatar"
           width={80}
           height={80}
-          className="absolute top-20 left-10 w-[70px] h-[70px] rounded-full object-cover"
+          className="absolute top-20 left-10 w-[70px] h-[70px] rounded-full object-cover hidden md:block"
         />
         <Image
           src="https://img.freepik.com/free-photo/portrait-white-man-isolated_53876-40306.jpg?semt=ais_hybrid&w=740"
           alt="avatar"
           width={60}
           height={60}
-          className="rounded-full absolute top-10 right-12 object-cover w-[60px] h-[60px]"
+          className="rounded-full absolute top-10 right-12 object-cover w-[60px] h-[60px]
+          hidden md:block"
         />
         <Image
           src="https://t3.ftcdn.net/jpg/01/86/40/16/360_F_186401650_6tXxwc5x3pwuA9bYjJG65l9pCFRIAu06.jpg"
           alt="avatar"
           width={60}
           height={60}
-          className="rounded-full absolute bottom-20 left-20 object-cover w-[70px] h-[70px]"
+          className="rounded-full absolute bottom-20 left-20 object-cover w-[70px] h-[70px]
+          hidden md:block"
         />
         <Image
           src="https://images.unsplash.com/photo-1615109398623-88346a601842?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWFufGVufDB8fDB8fHww"
           alt="avatar"
           width={60}
           height={60}
-          className="rounded-full absolute bottom-50 left-50 object-cover w-[70px] h-[70px]"
+          className="rounded-full absolute bottom-50 left-50 object-cover w-[70px] h-[70px]
+          hidden md:block"
         />
 
         <Image
@@ -93,7 +96,8 @@ const Testimonial = () => {
           alt="avatar"
           width={60}
           height={60}
-          className="rounded-full absolute bottom-50 right-50 object-cover w-[70px] h-[70px]"
+          className="rounded-full absolute bottom-50 right-50 object-cover w-[70px] h-[70px]
+          hidden md:block"
         />
 
         <Image
@@ -101,7 +105,8 @@ const Testimonial = () => {
           alt="avatar"
           width={60}
           height={60}
-          className="rounded-full absolute bottom-12 right-16 object-cover w-[60px] h-[60px]"
+          className="rounded-full absolute bottom-12 right-16 object-cover w-[60px] h-[60px]
+          hidden md:block"
         />
       </div>
     </section>

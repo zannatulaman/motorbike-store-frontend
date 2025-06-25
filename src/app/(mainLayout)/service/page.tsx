@@ -1,59 +1,91 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Truck, Settings, Shield } from "lucide-react"; // Use icons related to services
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Image from "next/image";
 
-const servicesData = [
-  {
-    id: 1,
-    icon: <Truck size={32} className="text-blue-600" />,
-    title: "Fast Delivery",
-    description: "Get your motorbike parts delivered quickly and safely.",
-  },
-  {
-    id: 2,
-    icon: <Settings size={32} className="text-green-600" />,
-    title: "Maintenance & Repair",
-    description:
-      "Expert bike maintenance and repair services to keep you riding.",
-  },
-  {
-    id: 3,
-    icon: <Shield size={32} className="text-red-600" />,
-    title: "Warranty & Support",
-    description:
-      "Reliable warranty and 24/7 customer support for peace of mind.",
-  },
-];
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Service } from "@/types";
+import Link from "next/link";
 
 const ServicesPage = () => {
-  return (
-    <div className="container mx-auto px-4 py-10 max-w-5xl">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center">
-            Our Services
-          </CardTitle>
-        </CardHeader>
+  const [services, setServices] = useState<Service[]>([]);
+  const [loading, setLoading] = useState(true);
 
-        <CardContent>
-          <Separator className="my-6" />
-          <div className="grid gap-8 md:grid-cols-3">
-            {servicesData.map(({ id, icon, title, description }) => (
-              <div
-                key={id}
-                className="flex flex-col items-center text-center p-6 border rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300"
-              >
-                <div className="mb-4">{icon}</div>
-                <h3 className="text-xl font-semibold mb-2">{title}</h3>
-                <p className="text-gray-600">{description}</p>
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/service/get"
+        );
+        setServices(response.data.data);
+        console.log("Services fetched successfully:", response.data.data.id);
+      } catch (err) {
+        console.error("Failed to fetch services:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  console.log("Fetched services:", services);
+
+  if (loading) {
+    return (
+      <p className="text-center py-12 text-gray-700">Loading services...</p>
+    );
+  }
+
+  return (
+    <section className="py-12 bg-gray-100 min-h-screen">
+      <div className="container max-w-7xl mx-auto px-4">
+        <h1 className="text-3xl font-bold text-center mb-10">
+          Motorcycle Repair & Maintenance Services
+        </h1>
+
+        {services.length === 0 ? (
+          <p className="text-center text-gray-600">
+            No services available at the moment.
+          </p>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {services.map(({ _id, image, name, description, price }) => (
+              <div className="p-4" key={_id}>
+                <Card className="flex flex-col h-full">
+                  <Image
+                    width={300}
+                    height={200}
+                    src={image}
+                    alt={name || "Service image"}
+                    className="w-full h-48 object-cover rounded-t-lg"
+                    priority={false}
+                  />
+                  <CardHeader>
+                    <CardTitle className="text-center text-xl font-semibold">
+                      {name}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="text-center flex flex-col flex-grow justify-between">
+                    <p className="text-sm text-gray-600 mb-4">{description}</p>
+                    <p className="text-green-600 font-bold text-lg mb-2">
+                      ${price.toFixed(2)}
+                    </p>
+                    <Link href={`/service/${_id}`}>
+                      <Button className="bg-red-500 hover:bg-red-600 text-white w-full">
+                        View Details
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
               </div>
             ))}
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        )}
+      </div>
+    </section>
   );
 };
 

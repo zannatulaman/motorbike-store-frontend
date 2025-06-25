@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { ApiResponse, Order } from "@/app/(mainLayout)/cart/page";
 import useUser from "@/hooks/useUser";
 import axios from "axios";
@@ -14,11 +16,12 @@ import {
   ShoppingBag,
   Phone,
   User,
-  LogIn,
   ShoppingCart,
 } from "lucide-react";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
+  const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
   const [error, setError] = useState<string | null>(null);
   const { user } = useUser();
@@ -59,6 +62,12 @@ const Navbar = () => {
       </div>
     );
   }
+
+  const handleLogout = () => {
+    localStorage.removeItem("token"); // ✅ Remove token
+    toast.success("Logged out successfully"); // ✅ Show toast
+    router.push("/login"); // ✅ Redirect to login
+  };
 
   return (
     <>
@@ -137,11 +146,15 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box mt-3 w-52 p-2 shadow"
             >
               <li>
-                <Link href="/profile">Profile</Link>
+                <Link href="/profile">
+                  <Button className="btn btn-ghost">Profile</Button>
+                </Link>
               </li>
-              <li>
-                <a>Logout</a>
-              </li>
+              <Link href="/login">
+                <Button onClick={handleLogout} className="btn btn-error w-full">
+                  Logout
+                </Button>
+              </Link>
             </ul>
           </div>
         </div>
@@ -209,19 +222,7 @@ const Navbar = () => {
                   <User className="w-4 h-4" />
                   Profile
                 </Link>
-              </li>
-              <li>
-                <Link href="/cart">
-                  <ShoppingCart className="w-4 h-4" />
-                  Cart
-                </Link>
-              </li>
-              <li>
-                <Link href="/login">
-                  <LogIn className="w-4 h-4" />
-                  Login
-                </Link>
-              </li>
+              </li> 
             </ul>
           </div>
 
@@ -256,7 +257,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Login Button */}
-        <div className="navbar-end hidden lg:flex">
+        <div className="navbar-end">
           <Link href="/login">
             <button className="btn btn-success">Login</button>
           </Link>
