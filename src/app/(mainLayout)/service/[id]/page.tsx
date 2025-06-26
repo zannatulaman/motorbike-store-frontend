@@ -1,40 +1,18 @@
-import { Service } from "@/types";
-
-// Define ApiResponse type for the expected API response structure
-type ApiResponse = {
-  success: boolean;
-  data: Service;
-};
-
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import { getService } from "@/lib/getService";
 
-export async function getService(id: string): Promise<Service | null> {
-  try {
-    const res = await fetch(
-      `https://bike-store-backend-silk.vercel.app/api/service/get/${id}`,
-      {
-        cache: "no-store",
-      }
-    );
 
-    if (!res.ok) {
-      throw new Error("Failed to fetch service");
-    }
-
-    const result: ApiResponse = await res.json();
-    return result.success ? result.data : null;
-  } catch (err) {
-    console.error("Server fetch error:", err);
-    return null;
-  }
-}
-
-const SingleServicePage = async ({ params }: { params: { id: string } }) => {
-  console.log("Params ID:", params.id); // Debug
-  const service = await getService(params.id);
+const SingleServicePage = async ({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) => {
+  const resolvedParams = await params;
+  console.log("Params ID:", resolvedParams.id); // Debug
+  const service = await getService(resolvedParams.id);
 
   if (!service) {
     console.log("Service not found or returned null"); // Debug
@@ -47,7 +25,6 @@ const SingleServicePage = async ({ params }: { params: { id: string } }) => {
         <h1 className="text-3xl md:text-4xl font-bold text-center mb-10">
           {service.name}
         </h1>
-
         <Card className="flex flex-col lg:flex-row overflow-hidden shadow-xl">
           {/* Left: Image */}
           <div className="w-full lg:w-1/2 h-[300px] lg:h-auto relative">
@@ -59,7 +36,6 @@ const SingleServicePage = async ({ params }: { params: { id: string } }) => {
               className="object-cover rounded-t-lg lg:rounded-l-lg lg:rounded-tr-none"
             />
           </div>
-
           {/* Right: Details */}
           <CardContent className="w-full lg:w-1/2 flex flex-col justify-between p-6 space-y-6">
             <div>
@@ -84,7 +60,6 @@ const SingleServicePage = async ({ params }: { params: { id: string } }) => {
                 </span>
               </p>
             </div>
-
             <Link href={`/service/${service._id}/book`}>
               <Button
                 className="w-full bg-green-600 hover:bg-green-700 text-white"
