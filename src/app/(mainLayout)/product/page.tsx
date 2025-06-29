@@ -12,7 +12,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = () => {
       axios
-        .get("https://bike-store-backend-silk.vercel.app/api/product/get")
+        .get("https://motorbike-store-backend.onrender.comapi/product/get")
         .then((response) => {
           setProducts(response.data);
         })

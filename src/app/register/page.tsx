@@ -39,10 +39,7 @@ const RegisterPage = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      await axios.post(
-        "https://bike-store-backend-silk.vercel.app/api/user/sign-up",
-        data
-      );
+      await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/user/sign-up`, data);
       router.push(`/verifyOtp?email=${data.email}`);
       toast.success("Account created! Please verify your email.");
     } catch (error) {

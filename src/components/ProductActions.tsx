@@ -83,7 +83,7 @@ const ProductActions = ({ product }: ProductActionsProps) => {
     console.log("Cart item:", cartItem);
     try {
       const response = await axios.post(
-        "https://bike-store-backend-silk.vercel.app/api/order/create",
+        "https://motorbike-store-backend.onrender.comapi/order/create",
         cartItem
       );
 

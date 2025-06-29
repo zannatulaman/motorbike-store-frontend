@@ -31,7 +31,7 @@ const Navbar = () => {
     const fetchOrders = async () => {
       try {
         const response = await axios.get<ApiResponse>(
-          "https://bike-store-backend-silk.vercel.app/api/order/get"
+          "https://motorbike-store-backend.onrender.comapi/order/get"
         );
 
         if (response.data.success) {

@@ -31,7 +31,7 @@ const BookServicePage = () => {
       typeof window !== "undefined" ? localStorage.getItem("token") : "";
 
     const res = await fetch(
-      "https://bike-store-backend-silk.vercel.app/api/service/booking",
+      "https://motorbike-store-backend.onrender.comapi/service/booking",
       {
         method: "POST",
         headers: {

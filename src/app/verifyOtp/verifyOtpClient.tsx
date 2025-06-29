@@ -27,7 +27,7 @@ const VerifyOtpClient = () => {
     try {
       const payLoad = { otp, email };
       const response = await axios.post(
-        "https://bike-store-backend-silk.vercel.app/api/user/verify-otp",
+        "https://motorbike-store-backend.onrender.comapi/user/verify-otp",
         payLoad
       );
       console.log("OTP verified:", response.data);

@@ -9,7 +9,7 @@ type ApiResponse = {
 export async function getService(id: string): Promise<Service | null> {
   try {
     const res = await fetch(
-      `https://bike-store-backend-silk.vercel.app/api/service/get/${id}`,
+      `https://motorbike-store-backend.onrender.comapi/service/get/${id}`,
       {
         cache: "no-store",
       }

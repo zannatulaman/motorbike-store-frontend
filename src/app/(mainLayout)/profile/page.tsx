@@ -50,7 +50,7 @@ const ProfilePage = () => {
 
       try {
         const res = await axios.get(
-          "https://bike-store-backend-silk.vercel.app/api/profile/me",
+          "https://motorbike-store-backend.onrender.comapi/profile/me",
           {
             headers: {
               "auth-token": `${token}`,
@@ -102,7 +102,7 @@ const ProfilePage = () => {
 
     try {
       const res = await axios.post(
-        "https://bike-store-backend-silk.vercel.app/api/profile/create",
+        "https://motorbike-store-backend.onrender.comapi/profile/create",
         {
           fullName: user.fullName,
           email: user.email,

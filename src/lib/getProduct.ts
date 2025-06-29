@@ -19,7 +19,7 @@ interface ApiResponse {
 export async function getProduct(id: string): Promise<Product | null> {
   try {
     const response = await fetch(
-      `https://bike-store-backend-silk.vercel.app/api/product/get/${id}`,
+      `https://motorbike-store-backend.onrender.comapi/product/get/${id}`,
       { cache: "no-store" }
     );
 

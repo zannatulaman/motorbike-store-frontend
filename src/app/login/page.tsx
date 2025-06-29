@@ -45,7 +45,7 @@ const LoginPage = () => {
   const onSubmit = async (data: LoginFormData) => {
     try {
       const response = await axios.post(
-        "https://bike-store-backend-silk.vercel.app/api/user/sign-in",
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/user/sign-in`,
         data
       );
 
