@@ -31,7 +31,7 @@ const BookServicePage = () => {
       typeof window !== "undefined" ? localStorage.getItem("token") : "";
 
     const res = await fetch(
-      "https://motorbike-store-backend.onrender.comapi/service/booking",
+      "https://motorbike-store-backend.onrender.com/api/service/booking",
       {
         method: "POST",
         headers: {

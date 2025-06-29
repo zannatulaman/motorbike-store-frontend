@@ -19,7 +19,7 @@ interface ApiResponse {
 export async function getProduct(id: string): Promise<Product | null> {
   try {
     const response = await fetch(
-      `https://motorbike-store-backend.onrender.comapi/product/get/${id}`,
+      `https://motorbike-store-backend.onrender.com/api/product/get/${id}`,
       { cache: "no-store" }
     );
 

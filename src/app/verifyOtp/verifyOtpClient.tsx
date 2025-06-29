@@ -27,7 +27,7 @@ const VerifyOtpClient = () => {
     try {
       const payLoad = { otp, email };
       const response = await axios.post(
-        "https://motorbike-store-backend.onrender.comapi/user/verify-otp",
+        "https://motorbike-store-backend.onrender.com/api/user/verify-otp",
         payLoad
       );
       console.log("OTP verified:", response.data);

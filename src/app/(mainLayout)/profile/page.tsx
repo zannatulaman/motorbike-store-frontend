@@ -50,7 +50,7 @@ const ProfilePage = () => {
 
       try {
         const res = await axios.get(
-          "https://motorbike-store-backend.onrender.comapi/profile/me",
+          "https://motorbike-store-backend.onrender.com/api/profile/me",
           {
             headers: {
               "auth-token": `${token}`,
@@ -102,7 +102,7 @@ const ProfilePage = () => {
 
     try {
       const res = await axios.post(
-        "https://motorbike-store-backend.onrender.comapi/profile/create",
+        "https://motorbike-store-backend.onrender.com/api/profile/create",
         {
           fullName: user.fullName,
           email: user.email,

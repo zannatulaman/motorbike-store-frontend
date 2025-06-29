@@ -12,7 +12,7 @@ const ProductList = () => {
   useEffect(() => {
     const fetchProducts = () => {
       axios
-        .get("https://motorbike-store-backend.onrender.comapi/product/get")
+        .get("https://motorbike-store-backend.onrender.com/api/product/get")
         .then((response) => {
           setProducts(response.data);
         })

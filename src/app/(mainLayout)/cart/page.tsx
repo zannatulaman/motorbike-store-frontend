@@ -86,7 +86,7 @@ const CartPage = () => {
       try {
         setLoading(true);
         const response = await axios.get<ApiResponse>(
-          "https://motorbike-store-backend.onrender.comapi/order/get"
+          "https://motorbike-store-backend.onrender.com/api/order/get"
         );
 
         if (response.data.success) {
@@ -128,7 +128,7 @@ const CartPage = () => {
   const handleDeleteOrder = async (orderId: string) => {
     try {
       await axios.delete(
-        `https://motorbike-store-backend.onrender.comapi/order/delete/${orderId}`
+        `https://motorbike-store-backend.onrender.com/api/order/delete/${orderId}`
       );
 
       toast.success("Order deleted successfully");
@@ -147,7 +147,7 @@ const CartPage = () => {
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       // Here you would typically make an API call to place the order
-      // await axios.post('https://motorbike-store-backend.onrender.comapi/order/place', { orders })
+      // await axios.post('https://motorbike-store-backend.onrender.com/api/order/place', { orders })
 
       setIsModalOpen(false);
       // You might want to redirect to a success page or show a success message
